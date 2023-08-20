@@ -1,5 +1,8 @@
 # Visual Inertial SLAM
 
+## Implementation
+This was implemented in Python using Numpy. The code has been redacted, if you wish you see, you may contact me at charles.lychee@gmail.com
+
 ## Dead Reckoning
 This uses purely control inputs to estimate where our agent is. This is a naive approach that accumulates error in motion noise.
 <img src='03_CombinedDR.gif'>
