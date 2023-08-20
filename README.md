@@ -1,8 +1,3 @@
-<script
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-  type="text/javascript">
-</script>
-
 # Visual Inertial SLAM
 
 ## Dead Reckoning
@@ -31,24 +26,17 @@ This uses stereo camera observations to estimate where our agent is and where ou
 ### States
 $\text{IMU Pose}: T_t \in SE(3)$
 
-$\text{Landmark Positions}: \mathbf{m} := \begin{bmatrix}
-\mathbf{m}_1^\top, ..., \mathbf{m}_M^\top
-\end{bmatrix}^\top \in \mathbb{R}^{3M}$
+$\text{Landmark Positions}: \mathbf{m} := \begin{bmatrix} \mathbf{m}_1^\top, ..., \mathbf{m}_M^\top \end{bmatrix}^\top \in \mathbb{R}^{3M}$
 
 ### Control
 $\text{Linear Velocity}: \mathbf{v} \in \mathbb{R}^3$
 
 $\text{Angular Velocity}: \mathbf{\omega} \in \mathbb{R}^3$
 
-$\text{Twist}: \mathbf{u} = \begin{bmatrix}
-\mathbf{v}\\
-\mathbf{\omega}
-\end{bmatrix} \in \mathbb{R}^6$
+$\text{Twist}: \mathbf{u} = \begin{bmatrix} \mathbf{v}\\ \mathbf{\omega} \end{bmatrix} \in \mathbb{R}^6$
 
 ### Observation
-$\text{Stereo Camera Features}: \mathbf{z}_t := \begin{bmatrix}
-\mathbf{z}_{t,1}^\top, ..., \mathbf{z}_{t,N_t}^\top
-\end{bmatrix}^\top \in \mathbb{R}^{4N_t}$
+$\text{Stereo Camera Features}: \mathbf{z}_t := \begin{bmatrix} \mathbf{z}_{t,1}^\top, ..., \mathbf{z}_{t,N_t}^\top \end{bmatrix}^\top \in \mathbb{R}^{4N_t}$
 
 ## Models
 ### Kinematics/Motion Model
@@ -67,17 +55,7 @@ $\text{Measurement Noise}: \mathbf{v}_t \sim \mathcal{N}(\mathbf{0}, V)$
 
 $\text{Observation Model}: \mathbf{z}_{t+1,i} = K_s\pi\left(_oT_I T_{t+1}^{-1} \mathbf{\underbar{m}}_j\right) + \mathbf{v}_{t+1,i}$
 
-$K_s := \begin{bmatrix}
-fs_u & 0 & c_u & 0\\
-0 & fs_v & c_v & 0\\
-fs_u & 0 & c_u & -fs_u b\\
-0 & fs_v & c_v & 0
-\end{bmatrix} : \begin{bmatrix}
-f: \text{focal length (m)}\\
-s_u, s_v: \text{pixel scaling (pixels/m)}\\
-c_u, c_v: \text{principal point (pixels)}\\
-b: \text{stereo baseline (m)}
-\end{bmatrix}$
+$K_s := \begin{bmatrix} fs_u & 0 & c_u & 0\\ 0 & fs_v & c_v & 0\\ fs_u & 0 & c_u & -fs_u b\\ 0 & fs_v & c_v & 0 \end{bmatrix} : \begin{bmatrix} f: \text{focal length (m)}\\ s_u, s_v: \text{pixel scaling (pixels/m)}\\ c_u, c_v: \text{principal point (pixels)}\\ b: \text{stereo baseline (m)} \end{bmatrix}$
 
 $\pi(\mathbf{q}) := \frac{1}{q_3}\mathbf{q} \in \mathbb{R}^4$
 
@@ -89,40 +67,25 @@ $T_t|\mathbf{z}_{0:t},\mathbf{u}_{0:t-1} \sim \mathcal{N}(\mathbf{\mu}_{t|t,T}, 
 
 $\mathbf{m}_t|\mathbf{z}_{0:t},\mathbf{u}_{0:t-1} \sim \mathcal{N}(\mathbf{\mu}_{t|t,m}, \Sigma_{t|t,m})$
 
-$\text{Joint Prior}: \begin{bmatrix}
-\mathbf{m}_t|\mathbf{z}_{0:t},\mathbf{u}_{0:t-1} \\
-T_t|\mathbf{z}_{0:t},\mathbf{u}_{0:t-1}
-\end{bmatrix} \sim \mathcal{N}(\mu_{t|t,SLAM}, \Sigma_{t|t,SLAM})$
+$\text{Joint Prior}: \begin{bmatrix} \mathbf{m}_t|\mathbf{z}_{0:t},\mathbf{u}_{0:t-1} \\ T_t|\mathbf{z}_{0:t},\mathbf{u}_{0:t-1} \end{bmatrix} \sim \mathcal{N}(\mu_{t|t,SLAM}, \Sigma_{t|t,SLAM})$
 
-$\mu_{t|t,SLAM} = \begin{bmatrix}
-\mathbf{\mu}_{t|t,m}\\
-\mathbf{\mu}_{t|t,T}
-\end{bmatrix}$
+$\mu_{t|t,SLAM} = \begin{bmatrix} \mathbf{\mu}_{t|t,m}\\ \mathbf{\mu}_{t|t,T} \end{bmatrix}$
 
-$\Sigma_{t|t,SLAM} = \begin{bmatrix}
-\Sigma_{t|t,m} & \Sigma_{t|t,mT}\\
-\Sigma_{t|t,Tm} & \Sigma_{t|t,T}
-\end{bmatrix}$
+$\Sigma_{t|t,SLAM} = \begin{bmatrix} \Sigma_{t|t,m} & \Sigma_{t|t,mT}\\ \Sigma_{t|t,Tm} & \Sigma_{t|t,T} \end{bmatrix}$
 
 ### Prediction Step
 $\mathbf{\mu}_{t+1|t,m} = \mathbf{\mu}_{t|t,m}: \text{Assume landmarks do not move}$
 
 $\mathbf{\mu}_{t+1|t,T} = \mathbf{\mu}_{t|t,T}\exp(\tau_t \hat{\mathbf{u}}_t)$
 
-$\Sigma_{t+1|t,SLAM} = \begin{bmatrix}
-\Sigma_{t|t,m} & \Sigma_{t|t,mT}F^\top\\
-F\Sigma_{t|t,Tm} & F\Sigma_{t|t,T}F^\top + W
-\end{bmatrix}$
+$\Sigma_{t+1|t,SLAM} = \begin{bmatrix} \Sigma_{t|t,m} & \Sigma_{t|t,mT}F^\top\\ F\Sigma_{t|t,Tm} & F\Sigma_{t|t,T}F^\top + W \end{bmatrix}$
 
 $F = \exp(\tau_t\overset{\curlywedge}{\mathbf{u}}_t)$
 
 ### Update Step
 
 #### Measurement Jacobians
-$H_{t+1,m,i,j} = \begin{cases}
-K_s \frac{d\pi}{d\mathbf{q}}\left(_oT_I \mathbf{\mu}_{t+1|t,T}^{-1}\underline{\mathbf{\mu}}_{t+1|t,m,j}\right) {}_oT_I \mathbf{\mu}_{t+1|t,T}^{-1}P^\top & :\text{if } \Delta_t(j)=i\\
-\mathbf{0} & :\text{otherwise}
-\end{cases}$
+$H_{t+1,m,i,j} = \begin{cases} K_s \frac{d\pi}{d\mathbf{q}}\left(_oT_I \mathbf{\mu}_{t+1|t,T}^{-1}\underline{\mathbf{\mu}}_{t+1|t,m,j}\right) {}_oT_I \mathbf{\mu}_{t+1|t,T}^{-1}P^\top & :\text{if } \Delta_t(j)=i\\ \mathbf{0} & :\text{otherwise} \end{cases}$
 
 $P := \begin{bmatrix}I & \mathbf{0}\end{bmatrix} \in \mathbb{R}^{3\times4}$
 
@@ -130,10 +93,7 @@ $H_{t+1,T,i} = -K_s \frac{d\pi}{d\mathbf{q}}\left(_oT_I \mathbf{\mu}_{t+1|t,T}^{
 
 $\hat\xi \underline{\mathbf{s}} = \underline{\mathbf{s}}^\odot \xi$
 
-$\begin{bmatrix}\mathbf{s} \\ 1 \end{bmatrix}^\odot := \begin{bmatrix}
-I  & -\hat{\mathbf{s}}\\
-0 & 0
-\end{bmatrix} \in \mathbf{R}^{4\times 6}$
+$\begin{bmatrix}\mathbf{s} \\ 1 \end{bmatrix}^\odot := \begin{bmatrix} I  & -\hat{\mathbf{s}}\\ 0 & 0 \end{bmatrix} \in \mathbf{R}^{4\times 6}$
 
 $H_{t+1,SLAM} = \begin{bmatrix}H_{t+1,m} & H_{t+1,T}\end{bmatrix}$
 
