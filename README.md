@@ -69,7 +69,7 @@ This uses stereo camera observations to estimate where our agent is and where ou
 \text{Measurement Noise}: \mathbf{v}_t \sim \mathcal{N}(\mathbf{0}, V)
 ```
 ```math
-\text{Observation Model}: \mathbf{z}_{t+1,i} = K_s\pi\left(_oT_I T_{t+1}^{-1} \mathbf{\underbar{m}}_j\right) + \mathbf{v}_{t+1,i}
+\text{Observation Model}: \mathbf{z}_{t+1,i} = K_s\pi\left(_oT_I T_{t+1}^{-1} \mathbf{\underline{m}}_j\right) + \mathbf{v}_{t+1,i}
 ```
 ```math
 K_s := \begin{bmatrix} fs_u & 0 & c_u & 0\\ 0 & fs_v & c_v & 0\\ fs_u & 0 & c_u & -fs_u b\\ 0 & fs_v & c_v & 0 \end{bmatrix} : \begin{bmatrix} f: \text{focal length (m)}\\ s_u, s_v: \text{pixel scaling (pixels/m)}\\ c_u, c_v: \text{principal point (pixels)}\\ b: \text{stereo baseline (m)} \end{bmatrix}
