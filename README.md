@@ -26,6 +26,7 @@ This uses stereo camera observations to estimate where our agent is and where ou
 ### States
 ```math
 \text{IMU Pose}: T_t \in SE(3)
+
 \text{Landmark Positions}: \mathbf{m} := \begin{bmatrix} \mathbf{m}_1^\top, ..., \mathbf{m}_M^\top \end{bmatrix}^\top \in \mathbb{R}^{3M}
 ```
 ### Control
