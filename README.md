@@ -1,7 +1,10 @@
 # Visual Inertial SLAM
 
+## Overview
+This project uses stereo camera observations to estimate where our agent is and where our observed landmarks are. This utilizes the Extended Kalman Filter (EKF) to estimate the 3D pose of our agent and the 3D position of our landmarks.
+
 ## Implementation
-This was implemented in Python using NumPy. The code has been redacted, if you wish you see it, you may contact me at charles.lychee@gmail.com
+This was implemented in Python using NumPy. The code has been redacted. If you wish to see it, you may contact me at charles.lychee@gmail.com
 
 ## Dead Reckoning
 This uses purely control inputs to estimate where our agent is. This is a naive approach that accumulates error in motion noise.
@@ -9,10 +12,7 @@ This uses purely control inputs to estimate where our agent is. This is a naive 
 <img src='10_CombinedDR.gif'>
 
 
-
 ## SLAM
-This uses stereo camera observations to estimate where our agent is and where our observed landmarks are. This utilizes the Extended Kalman Filter (EKF) to estimate the pose of our agent and the position of our landmarks.
-
 - The left visual shows the left camera frame with features overlayed.
 - The center visual shows the landmarks as they are seen in each frame.
 - The right visual shows all the landmarks that have been seen thus far.
