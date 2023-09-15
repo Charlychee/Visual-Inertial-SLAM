@@ -1,7 +1,7 @@
 # Visual Inertial SLAM
 
 ## Overview
-This project uses stereo camera observations to estimate where our agent is and where our observed landmarks are. This utilizes the Extended Kalman Filter (EKF) to estimate the 3D pose of our agent and the 3D position of our landmarks.
+This project uses stereo camera observations to estimate where our agent is and where our observed landmarks are. This utilizes the Extended Kalman Filter (EKF) with stereo camera and IMU data to estimate the 3D pose of an agent and the 3D position of landmarks.
 
 ## Implementation
 This was implemented in Python using NumPy. The code has been redacted. If you wish to see it, you may contact me at charles.lychee@gmail.com
